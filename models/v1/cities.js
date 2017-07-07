@@ -33,6 +33,40 @@ citySchema.statics.cityGuess = function(name){
     });
 }
 
+
+citySchema.statics.cityHot = function(){
+    return new Promise(async (resolve,reject) => {
+        try {
+            const city = await this.findOne();
+            resolve(city.data.hotCities);
+        }catch(err){
+            console.err(err);
+            reject({
+                name: 'ERROR_DATA',
+                message : '查找数据失败'
+            });
+        }
+    });
+}
+
+citySchema.statics.cityGroup = function(){
+    return new Promise(async (resolve,reject) => {
+        try {
+            const city = await this.findOne();
+            const cityObj = city.data;
+            //delete(cityObj._id);
+            delete(cityObj.hotCities);
+            resolve(cityObj);
+        }catch(err) {
+            console.err(err);
+            reject({
+                name: 'ERROR_DATA',
+                message : '查找数据失败'
+            });
+        }
+    });
+}
+
 const Cities = mongoose.model('Cities',citySchema);
 
 Cities.findOne(function(err,data){

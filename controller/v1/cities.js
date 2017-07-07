@@ -11,11 +11,29 @@ class CityHandle extends addressComponent {
 
     async getCity(req,res,next){
         let cityInfo;
+        const type = req.query.type;
         try{
-            const city = await this.getCityname(req,res);
-            cityInfo = await Cities.cityGuess(city);
+            switch(type){
+                case 'guess':
+                    const city = await this.getCityname(req,res);
+                    cityInfo = await Cities.cityGuess(city);
+                    break;
+                case 'hot':
+                    cityInfo = await Cities.cityHot();
+                    break;
+                case 'group':
+                    cityInfo = await Cities.cityGroup();
+                    break;
+                default :
+                    res.json({
+                        name : 'ERROR_QUERY_TYPE',
+                        message : '参数错误'
+                    });
+                    break;
+            }
             res.send(cityInfo);
         }catch(err){
+            console.error(err);
             res.send({
                 name : 'ERROR_DATA',
                 message : '获取数据失败',
