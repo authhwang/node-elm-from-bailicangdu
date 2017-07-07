@@ -8,6 +8,7 @@ const MongoStore = connectMongo(session);
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const Statistic = require('./middlewares/statistic.js');
+const routes = require('./routes/index.js');
 
 const app = express();
 
@@ -54,6 +55,7 @@ app.get('/',function(req,res){
     });
 });
 
+routes(app);
 
 app.use(expressWinston.errorLogger({
     transports : [

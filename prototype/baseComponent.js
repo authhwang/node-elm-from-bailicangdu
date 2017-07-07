@@ -27,10 +27,11 @@ module.exports = class BaseComponent {
             Object.keys(data).forEach(function(key){
                 dataStr += key + '=' + data[key] + '&';
             });
-
+            
             if(dataStr !== '') {
                 dataStr = dataStr.substr(0,dataStr.lastIndexOf('&'));
-                url = url + '?' + dataStr;
+                url = encodeURI(url + '?' + dataStr);
+                console.log(url);
             }
         }
 
