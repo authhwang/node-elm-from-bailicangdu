@@ -47,6 +47,47 @@ class AddressComponent extends baseComponent {
             }
         });
     }
+
+
+    //搜索地址
+    async searchPlace(keyword,cityName,type = 'search'){
+        try{
+            const resultObj = await this.fetch('http://apis.map.qq.com/ws/place/v1/search',{
+                key : this.tencentkey,
+                keyword : encodeURIComponent(keyword),
+                boundary : 'region(' + encodeURIComponent(cityName) + ',0' + ')',
+                pageSize : 10,
+            })
+
+            if(resultObj.status == 0){
+                return resultObj;
+            }else {
+                throw new Error(resultObj.message);
+            }
+        }catch(err){
+            throw new Error(err);
+        }
+    }
+
+    //根据经纬度获取地址
+    async getPois(lat,lng){
+        try{
+            const resultObj = await this.fetch('http://apis.map.qq.com/ws/geocoder/v1',{
+                key : this.tencentkey,
+                location : lat + ',' + lng
+            });
+
+            if(resultObj.status == 0){
+                return resultObj;
+            }else {
+                throw new Error(resultObj.message);
+            }
+        }catch(err){
+            console.log('getpois获取定位失败');
+            throw new Error(err);
+        }
+    }
+
 }
 
 

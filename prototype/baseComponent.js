@@ -30,7 +30,7 @@ module.exports = class BaseComponent {
             
             if(dataStr !== '') {
                 dataStr = dataStr.substr(0,dataStr.lastIndexOf('&'));
-                url = encodeURI(url + '?' + dataStr);
+                url = url + '?' + dataStr;
                 console.log(url);
             }
         }
