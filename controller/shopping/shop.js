@@ -104,8 +104,8 @@ class Shop extends AddComponent {
         const from = latitude + ',' + longitude;
         let to = '';
         restaurants.forEach((item,index) =>{
-            const slpitStr = (index == restaurants.length - 1) ? '' : '|';
-            to += item.latitude + ',' + item.longitude + slpitStr;
+            const splitStr = (index == restaurants.length - 1) ? '' : '|';
+            to += item.latitude + ',' + item.longitude + splitStr;
         });
         try{
             if(restaurants.length){
@@ -132,5 +132,50 @@ class Shop extends AddComponent {
         }
     }
 
+    //搜索餐馆
+    async searchRestaurant(req,res,next){
+        const {geohash,keyword} = req.query;
+        try{
+            if(!geohash || geohash.indexOf(',') == -1){
+                throw new Error('经纬度参数错误');
+            }else if(!keyword){
+                throw new Error('关键词参数错误');
+            }
+        }catch(err){
+            console.log('搜索商铺参数错误');
+            res.send({
+                status : 0,
+                type: 'ERROR_PARAMS',
+                message: err.message,
+            });
+        }
 
+        try{
+            const restaurants = await shopModel.find({'name' : eval('/' + keyword + '/gi')},'-_id').limit(50);
+            if(restaurants.length) {
+                const [latitude,longitude] = geohash.split(',');
+                const from = latitude + ',' + longitude;
+                let to = '';
+                //获取百度地图测距离所需经纬度
+                restaurants.forEach((item,index)=> {
+                    const splitStr = (index == restaurants.length - 1) ? '' : '|';
+                    to += item.latitude + ',' + item.longitude + splitStr;
+                });
+                const distacne_duration = await this.getDistance(from,to);
+                restaurants.map((item,index) =>{
+                    return Object.assign(item,distacne_duration[index]);
+                });
+
+                res.send(restaurants);
+            }
+        }catch(err){
+            console.log('搜索餐馆数据失败');
+            res.send({
+                status: 0,
+                type: 'ERROR_DATA',
+                message: '搜索餐馆数据失败',
+            });
+        }
+
+    }
 }
