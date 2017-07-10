@@ -20,4 +20,19 @@ class Category extends BaseComponent {
             throw new Error(err);
         }
     }
+
+    //获取所有餐馆分类和数量
+    async getCategories(req,res,next){
+        try{
+            const categories = await categoryModel.find({},'-_id');
+            res.send(categories);
+        }catch(err){
+            console.log('获取categories失败');
+            res.send({
+                status : 0,
+                type: 'ERROR_DATA',
+                message: '获取categories失败'
+            })
+        }
+    }
 }
