@@ -1,6 +1,7 @@
 const BaseComponent = require('../../prototype/baseComponent.js');
 const categoryModel = require('../../models/shopping/category.js');
 const deliveryModel = require('../../models/shopping/delivery.js');
+const activityModel = require('../../models/shopping/activity.js');
 class Category extends BaseComponent {
     constructor(){
         super();
@@ -52,6 +53,20 @@ class Category extends BaseComponent {
         }
     }
 
+    //获取活动列表
+    async getActivity(req,res,next){
+        try{
+            const activities = await activityModel.find({},'-_id');
+            res.send(activities);
+        }catch(err){
+            console.log('获取活动列表数据失败');
+            res.send({
+                status: 0,
+                type: 'ERROR_DATA',
+                message: '获取活动列表数据失败'
+            });
+        }
+    }
 }
 
 module.exports = new Category();
