@@ -179,3 +179,5 @@ class Shop extends AddComponent {
 
     }
 }
+
+module.exports = new Shop();

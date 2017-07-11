@@ -1,5 +1,6 @@
 const BaseComponent = require('../../prototype/baseComponent.js');
 const categoryModel = require('../../models/shopping/category.js');
+const deliveryModel = require('../../models/shopping/delivery.js');
 class Category extends BaseComponent {
     constructor(){
         super();
@@ -32,7 +33,25 @@ class Category extends BaseComponent {
                 status : 0,
                 type: 'ERROR_DATA',
                 message: '获取categories失败'
-            })
+            });
         }
     }
+
+    //获取所有配送方式
+    async getDelivery(req,res,next){
+        try{
+            const deliveries = await deliveryModel.find({},'-_id');
+            res.send(deliveries);
+        }catch(err){
+            console.log('获取配送方式数据失败');
+            res.send({
+                status: 0,
+                type: 'ERROR_DATA',
+                message: '获取配送方式数据失败'
+            });
+        }
+    }
+
 }
+
+module.exports = new Category();
