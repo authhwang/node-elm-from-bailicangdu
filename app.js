@@ -10,6 +10,7 @@ const expressWinston = require('express-winston');
 const Statistic = require('./middlewares/statistic.js');
 const routes = require('./routes/index.js');
 
+
 const app = express();
 
 //跨域请求的设置

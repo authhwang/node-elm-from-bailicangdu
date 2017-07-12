@@ -78,7 +78,7 @@ module.exports = class BaseComponent {
             await idData.save();
             return idData[type];
         }catch(err){
-            console.log('获取id数据失败');
+            console.log('获取id数据失败',err);
             throw new Error('获取id类型失败');
         }
     }
@@ -102,31 +102,33 @@ module.exports = class BaseComponent {
     }
 
     async qiniu(req,type = 'default'){
-        return new Promise(function(resolve,reject){
+        return new Promise((resolve,reject) =>{
             const form = formidable.IncomingForm();
             form.uploadDir = './public/img/' + type;
-            form.parse(req,async function(err,fields,files){
+            form.parse(req,async (err,fields,files) =>{
                 let img_id;
                 try{
                     img_id = await this.getId('img_id');
                 }catch(err){
                     console.log('获取图片id失败');
-                    fs.unlink(files.file.path);
+                    fs.unlinkSync(files.file.path);
                     reject('获取图片失败');
                 }
+
                 const imgName = (new Date().getTime() + Math.ceil(Math.random()*10000)).toString(16) + img_id;
                 const extName = path.extname(files.file.name);
-                const repath = './public/img' + type + '/' + imgName + extName;
+                const repath = './public/img/' + type + '/' + imgName + extName;
+                console.log(repath);
                 try {
                     const key = imgName + extName;
-                    await fs.rename(files.file.path,repath);
+                    fs.renameSync(files.file.path,repath);
                     const token = this.uptoken('node-elm',key);
                     const qiniuImg = await this.uploadFile(token.toString(),key,repath);
-                    fs.unlink(repath);
+                    fs.unlinkSync(repath);
                     resolve(qiniuImg);
                 }catch(err) {
                     console.log('保存至七牛失败');
-                    fs.unlink(files.file.path);
+                    fs.unlinkSync(repath);
                     reject('保存至七牛失败');
                 }
             });
@@ -134,13 +136,18 @@ module.exports = class BaseComponent {
     }
 
     uptoken(bucket,key){
-        const putPolicy = new qiniu.rs.PutPolicy(bucket+':'+key);
-        return putPolicy.token();
+        try {
+            const putPolicy = new qiniu.rs.PutPolicy(bucket+':'+key);
+            return putPolicy.token();
+        }catch(err){
+            console.log(err);
+        }
     }
 
     uploadFile(uptoken,key,localFile){
-        return new Promise(function(resolve,reject){
-            const extra = new qiniu.io.PutExtra();
+        return new Promise((resolve,reject) =>{
+            var extra = new qiniu.io.PutExtra();
+            console.log('2312312321');
             qiniu.io.putFile(uptoken,key,localFile,extra,function(err,ret){
                 if(!err){
                     resolve(ret.key);

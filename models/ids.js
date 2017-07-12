@@ -31,6 +31,7 @@ Ids.findOne(function(err,data) {
             sku_id : 0,
             admin_id : 0,
             statis_id : 0,
+            img_id : 0
         });
         newIds.save();
     }
