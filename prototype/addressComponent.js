@@ -92,18 +92,18 @@ class AddressComponent extends baseComponent {
     async getDistance(from,to,type){
         try{
             let res;
-            res = await this.fetch('http://api.map.baidu.com/routemartix/v2/driving',{
+            res = await this.fetch('http://api.map.baidu.com/routematrix/v2/driving',{
                 ak: this.baidukey,
                 output: 'json',
                 origins: from,
-                destinations: to
+                destinations: to,
             });
 
             if(res.status != 0){
                 throw new Error('调用百度地图测距失败');
             }
             
-            const positonArr = [];
+            const positionArr = [];
             let timevalue;
             res.result.forEach(item =>{
                 timevalue = Number.parseInt(item.duration.value) + 1200;
@@ -111,7 +111,7 @@ class AddressComponent extends baseComponent {
                 if(Math.floor(timevalue/3600)){
                     durationtime = Math.floor(timevalue/3600) + '小时' + durationtime;
                 }
-                positonArr.push({
+                positionArr.push({
                     distance: item.distance.text,
                     order_lead_time: durationtime,
                 });

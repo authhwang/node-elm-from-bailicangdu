@@ -302,9 +302,9 @@ class Shop extends AddComponent {
             }
         }catch(err){
             console.log('从addressComponent获取测距数据失败',err);
-            restaurants.map((item,index => {
+            restaurants.map((item,index) => {
                 return Object.assign(item,{distance: '10公里', order_lead_time: '40分钟'});
-            }));
+            });
         }
 
         try{
@@ -381,7 +381,7 @@ class Shop extends AddComponent {
             const restaurant = await shopModel.findOne({id : restaurant_id},'-_id');
             res.send(restaurant);
         }catch(err){
-            console.log('获取餐馆详情失败');
+            console.log('获取餐馆详情失败',err);
             res.send({
                 status: 0,
                 type: 'GET_DATA_ERROR',
