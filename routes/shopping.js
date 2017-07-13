@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const shopHandler = require('../controller/shopping/shop.js');
 const categoryHandler = require('../controller/shopping/category.js');
-
-
+const checkHandler = require('../middlewares/check.js');
+router.post('/addshop',shopHandler.addShop);
 router.get('/restaurants',shopHandler.getRestaurants);
 router.get('/restaurant/:restaurant_id',shopHandler.getRestaurantDatail);
 router.get('/v1/restaurants/delivery_modes',categoryHandler.getDelivery);

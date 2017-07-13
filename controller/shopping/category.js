@@ -67,6 +67,16 @@ class Category extends BaseComponent {
             });
         }
     }
+
+    //增加对应食品种类的数量
+    async addCategory(type){
+        try{
+            await categoryModel.addCategory(type);
+        }catch(err){
+            console.log('增加category数量失败',err);
+            throw new Error(err);
+        }
+    }
 }
 
 module.exports = new Category();
