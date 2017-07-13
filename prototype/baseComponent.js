@@ -15,7 +15,8 @@ module.exports = class BaseComponent {
                                 ,'sku_id','admin_id','statis_id'];
         this.imgTypeList = ['shop','food','avatar','default'];
         this.uploadImg = this.uploadImg.bind(this);
-        this.qiniu = this.qiniu.bind(this); //单独导出时会时this指向不明 所以需要此绑定 不过只是应用在export es6的新功能
+        this.qiniu = this.qiniu.bind(this); //单独导出时会时this指向不明 所以需要此绑定 不过只是应用在export es6的新功能 
+            //怪不得要这样写了 因为假如用了箭头函数 在一些第三方的回调下使用this回变得指向不明 估计会在第三方那里 所以才要这样
     }
 
     async fetch (url = '',data = {},type = 'GET',resType = 'JSON') {
