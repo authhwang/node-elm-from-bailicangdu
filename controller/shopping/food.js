@@ -172,7 +172,7 @@ class Food extends BaseComponent {
                 image_path: fields.image_path,
                 activity: null,
                 attributes: [],
-                restaurtant_id: fields.restaurant_id,
+                restaurant_id: fields.restaurant_id,
                 category_id: fields.category_id,
                 satisfy_rate: Math.ceil(Math.random()*100),
                 satisfy_count: Math.ceil(Math.random()*1000),
@@ -308,7 +308,37 @@ class Food extends BaseComponent {
         return [specfoods,specifications];
     }
 
-    
+    //获取食品列表
+    async getMenu(req,res,next){
+        const restaurant_id = req.query.restaurant_id;
+        const allMenu = req.query.allMenu;
+        if(!restaurant_id || !Number(restaurant_id)){
+            console.log('获取餐馆参数ID错误');
+            res.send({
+                status: 0,
+                type: 'ERROR_PARAMS',
+                message: '餐馆ID参数错误',
+            });
+            return;
+        }
+        let filter;
+        if(allMenu){
+            filter = {restaurant_id};
+        }else {
+            filter = {restaurant_id,$where: function(){return this.foods.length}};
+        }
+        try{
+            const menu = await menuModel.find(filter,'-_id');
+            res.send(menu);
+        }catch(err){
+            console.log('获取食品数据失败',err);
+            res.send({
+                status: 0,
+                type: 'GET_DATA_ERROR',
+                message: '获取食品数据失败'
+            });
+        }
+    }
 
 }
 
