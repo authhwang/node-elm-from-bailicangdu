@@ -325,7 +325,7 @@ class Food extends BaseComponent {
         if(allMenu){
             filter = {restaurant_id};
         }else {
-            filter = {restaurant_id,$where: function(){return this.foods.length}};
+            filter = {restaurant_id,$where: function(){return this.foods.length}}; //根据this.foods是否有数据决定输出
         }
         try{
             const menu = await menuModel.find(filter,'-_id');

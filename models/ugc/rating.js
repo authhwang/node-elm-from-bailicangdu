@@ -63,5 +63,21 @@ rateSchema.statics.initData = async function(restaurant_id){
     }
 }
 
+rateSchema.statics.getData = async function(restaurant_id,type,offset,limit){
+        try{
+            let data;
+            data = await this.findOne({restaurant_id},'-_id');
+          
+            if(!data){
+                throw new Error('未找到当前餐馆的评论数据');
+            }
+            console.log(data[type],type);
+            return data[type];
+        }catch(err){
+            console.log('初始化评论数据失败');
+            throw new Error(err);
+        }
+}
+
 const rate = mongoose.model('Rating',rateSchema);
 module.exports = rate;
