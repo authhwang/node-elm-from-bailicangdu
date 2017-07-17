@@ -116,7 +116,7 @@ class AddressComponent extends baseComponent {
                     order_lead_time: durationtime,
                 });
             });
-            if(type == 'timevalue'){ //from和to都是一个值的时候
+            if(type == 'timevalue'){ //from和to都是一个值的时候 只需要一个秒数时间
                 return timevalue;
             }else {
                 return positionArr;

@@ -1,12 +1,15 @@
 const express = require('express');
 const router = express.Router();
-const cityHandle = require('../controller/v1/cities.js');
-const searchHandle = require('../controller/v1/search.js');
+const cityHandler = require('../controller/v1/cities.js');
+const searchHandler = require('../controller/v1/search.js');
+const cartsHanlder = require('../controller/v1/carts.js');
 const baseClass =  require('../prototype/baseComponent.js');
-const baseHandle = new baseClass();
+const baseHandler = new baseClass();
 
-router.get('/cities',cityHandle.getCity);
-router.get('/cities/:id',cityHandle.getCityById);
-router.get('/pois',searchHandle.search);
-router.post('/addimg/:type',baseHandle.uploadImg);
+
+router.post('/addimg/:type',baseHandler.uploadImg);
+router.post('/carts/checkout',cartsHanlder.checkout);
+router.get('/cities',cityHandler.getCity);
+router.get('/cities/:id',cityHandler.getCityById);
+router.get('/pois',searchHandler.search);
 module.exports = router;

@@ -29,13 +29,16 @@ app.all(function(req,res,next){
 app.disable('x-powered-by');
 
 //app.use(Statistic.apiRecord);
-app.use(cookieParser(config.session.secret));
+app.use(cookieParser());
 app.use(session({
+    name: config.session.name,
     secret : config.session.secret,
     resave : true,
     saveUninitialized : false,
+    cookie: config.session.cookie,
     store : new MongoStore({url : config.url})
 }));
+
 
 app.use(expressWinston.logger({
     transports : [

@@ -6,9 +6,12 @@ module.exports = {
     port : 3000,
     url: 'mongodb://localhost:27017/elm',
     session: {
+        name: 'SID',
         secret : 'session与cookie密钥',
         cookie : {
-            maxAge : 365 * 24 * 60 * 1000 
+            maxAge : 365 * 24 * 60 * 1000,
+            secure: false,
+            httpOnly: true
         }
     }
 }
