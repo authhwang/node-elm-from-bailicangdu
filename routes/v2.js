@@ -1,7 +1,10 @@
 const router = require('express').Router();
-const cityHandle = require('../controller/v1/cities.js');
-const entryHandle = require('../controller/v2/entry.js');
+const cityHandler = require('../controller/v1/cities.js');
+const entryHandler = require('../controller/v2/entry.js');
+const userHandler = require('../controller/v2/user.js');
 
-router.get('/pois/:geohash',cityHandle.pois);
-router.get('/index_entry',entryHandle.getEntry);
+
+router.post('/login',userHandler.login);
+router.get('/index_entry',entryHandler.getEntry);
+router.get('/pois/:geohash',cityHandler.pois);
 module.exports = router;

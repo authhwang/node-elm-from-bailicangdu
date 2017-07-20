@@ -30,6 +30,7 @@ app.disable('x-powered-by');
 
 //app.use(Statistic.apiRecord);
 app.use(cookieParser());
+app.use(express.static(__dirname + '/public'));
 app.use(session({
     name: config.session.name,
     secret : config.session.secret,
@@ -73,9 +74,5 @@ app.use(expressWinston.errorLogger({
     ]
 }));
 
-app.use(function(err,req,res,next){
-    res.status(404).send('未找到当前路由');
-});
 
-app.use(express.static(__dirname + '/public'));
 app.listen(config.port);
