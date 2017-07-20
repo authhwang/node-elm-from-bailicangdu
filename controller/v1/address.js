@@ -77,7 +77,7 @@ class Address extends BaseComponent {
                         id: address_id,
                         address,
                         phone,
-                        phone_bk: phone_bk&&'',
+                        phone_bk: phone_bk || '1213',
                         name,
                         st_geohash: geohash,
                         address_detail,
@@ -100,6 +100,31 @@ class Address extends BaseComponent {
                     });
                 }
             });
+        }
+
+        async delAddress(req,res,next){
+            const {user_id, address_id} = req.params;
+            if(!user_id || !address_id || !Number(user_id) || !Number(address_id)){
+                console.log('参数错误');
+                res.send({
+                    type: 'ERROR_PARAMS',
+                    message: '参数错误'
+                });
+                return;
+            }
+            try{
+                await addressModel.findOneAndRemove({id: address_id});
+                res.send({
+                    status: 1,
+                    success: '删除地址成功'
+                });
+            }catch(err){
+                console.log('删除收货地址失败',err);
+                res.send({
+                    status: 0,
+                    message: '删除收货地址失败'
+                });
+            }
         }
 
 }

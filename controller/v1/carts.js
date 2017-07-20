@@ -20,13 +20,16 @@ class Carts extends AddressComponent {
         }
 
         async checkout(req,res,next){
-            const UID = req.session.id;
+            const UID = req.session.user_id;
+            console.log('UID' + UID);
             const form = new formidable.IncomingForm();
             form.parse(req,async (err,fields,files) =>{
                 const {come_from,geohash,entities = [],restaurant_id} = fields;
                 try{
                     if(!(entities instanceof Array) || !entities.length){
-                        throw new Error('entities参数');
+                        throw new Error('entities参数错误');
+                    }else if(!(entities[0] instanceof Array) || !entities[0].length){
+                        throw new Error('entities参数错误');
                     }else if(!restaurant_id){
                         throw new Error('restaurant_id参数错误');
                     }
@@ -71,7 +74,7 @@ class Carts extends AddressComponent {
 
                 const deliver_amount = 4;
                 let price = 0;
-                entities.map((item)=>{
+                entities[0].map((item)=>{
                     price += item.price * item.quantity;
                     if(item.packing_fee){
                         this.extra[0].price  += item.packing_fee * item.quantity;
@@ -125,7 +128,7 @@ class Carts extends AddressComponent {
                     const cart = await newCart.save();
                     res.send(cart);
                 }catch(err){
-                    console.log('保存购物车数据失败');
+                    console.log('保存购物车数据失败',err);
                     res.send({
                         status: 0,
                         type: 'ERROR_TO_SAVE_CART',
