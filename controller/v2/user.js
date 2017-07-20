@@ -120,6 +120,14 @@ class User extends AddressComponent {
         }
     }
 
+    async signout(req,res,next){
+        delete req.session.user_id;
+        res.send({
+            status: 1,
+            message: '退出成功'
+        });
+    }
+
     encryption(password){
         const newpassword = this.MD5(this.MD5(password).substr(2,7) + this.MD5(password));
         return newpassword;
