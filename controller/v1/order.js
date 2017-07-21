@@ -1,8 +1,9 @@
 const BaseComponent = require('../../prototype/baseComponent.js');
 const formidable = require('formidable');
-const cartModel = require('../../models/v1/cart.js');
 const dtime = require('time-formater');
+const cartModel = require('../../models/v1/cart.js');
 const orderModel = require('../../models/bos/order.js');
+const addressModel = require('../../models/v1/address.js');
 
 class Order extends BaseComponent {
     constructor(){
@@ -147,6 +148,38 @@ class Order extends BaseComponent {
                 status: 0,
                 type: 'ERROR_GET_ORDER_LIST',
                 message: '获取订单列表失败'
+            });
+        }
+    }
+
+    async getDetail(req,res,next){
+        const {user_id,order_id} = req.params;
+        try{
+            if(!user_id || !Number(user_id)){
+                throw new Error('user_id参数错误');
+            }else if(!order_id || !Number(order_id)){
+                throw new Error('order_id参数错误');
+            }
+        }catch(err){
+            console.log(err.message);
+            res.send({
+                status: 0,
+                type: 'GET_ERROR_PARAM',
+                message: err.message
+            });
+            return;
+        }
+        try{
+            const order = await orderModel.findOne({id: order_id},'-_id');
+            const addressDetail = await addressModel.findOne({id: order.address_id},'-_id');
+            const orderDetail = {order,...{addressDetail: addressDetail.address,consignee: addressDetail.name,deliver_time: '尽快送达',pay_method: '在线支付', phone: addressDetail.phone}};
+            res.send(orderDetail);
+        }catch(err){
+            console.log('获取订单信息失败',err);
+            res.send({
+                status: 0,
+                type: 'ERROR_TO_GET_ORDER_DETAIL',
+                message: '获取订单信息失败'
             });
         }
     }
