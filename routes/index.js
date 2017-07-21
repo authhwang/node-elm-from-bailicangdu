@@ -5,6 +5,7 @@ const v4 = require('./v4.js');
 const ugc = require('./ugc.js');
 const bos = require('./bos.js');
 const shopping = require('./shopping.js');
+const promotion = require('./promotion.js');
 
 module.exports = function(app) {
     
@@ -15,5 +16,6 @@ module.exports = function(app) {
     app.use('/ugc',ugc);
     app.use('/bos',bos);
     app.use('/shopping',shopping);
-
+    app.use('/promotion',promotion);
+    
 }

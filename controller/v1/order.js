@@ -114,7 +114,7 @@ class Order extends BaseComponent {
         try{
             if(!user_id || !Number(user_id)){
                 throw new Error('user_id参数错误');
-            }else if (!Number(limit)){
+            }else if (typeof Number(limit) !== 'number'){
                 throw new Error('limit参数错误');
             }else if(typeof Number(offset) !== 'number'){
                 throw new Error('offset参数错误');
