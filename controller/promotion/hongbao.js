@@ -16,6 +16,13 @@ class Hongbao extends BaseComponent {
         this.hongbaoHandle(req,res,'expired');
     }
 
+    async exchange(req,res,next){
+        res.send({
+            status: 0,
+            type: 'NOT_ALLOWED_API',
+            message: '无效的兑换码'
+        });
+    }
 
 
     async hongbaoHandle(req,res,type) {

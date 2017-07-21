@@ -8,6 +8,7 @@ const addressHandler = require('../controller/v1/address.js');
 const userHandler = require('../controller/v2/user.js');
 const captchasHandler = require('../controller/v1/captchas.js');
 const ordersHandler = require('../controller/v1/order.js');
+const hongbaoHander = require('../controller/promotion/hongbao.js');
 const baseClass =  require('../prototype/baseComponent.js');
 const baseHandler = new baseClass();
 
@@ -17,6 +18,8 @@ router.post('/addimg/:type',baseHandler.uploadImg);
 router.post('/carts/checkout',cartsHanlder.checkout);
 router.post('/users/:user_id/addresses',addressHandler.addAddress);
 router.post('/users/:user_id/carts/:cart_id/orders',ordersHandler.postOrder);
+router.post('/users/:user_id/hongbao/exchange',hongbaoHander.exchange);
+router.get('/users/:user_id/hongbao/exchange',)
 router.get('/pois',searchHandler.search);
 router.get('/user',userHandler.getInfo);
 router.get('/cities',cityHandler.getCity);
