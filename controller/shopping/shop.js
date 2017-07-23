@@ -391,6 +391,21 @@ class Shop extends AddComponent {
 
     }
 
+    async getShopCount(req,res,next){
+        try{
+            const count = await shopModel.count();
+            res.send({
+                status: 1,
+                count
+            });
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'ERROR_GET_SHOP_COUNT',
+                message: '获取商店数量失败'
+            });
+        }
+    }
 }
 
 module.exports = new Shop();

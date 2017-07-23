@@ -131,6 +131,39 @@ class Admin extends AddressComponent {
         }
     }
 
+    async getAllAdmin(req,res,next){
+        const {limit = 20,offset = 0} = req.query;
+        try{
+            const admins = await adminModel.find({},'-_id -password').sort({id: -1}).limit(Number(limit)).skip(Number(offset));
+            res.send({
+                status: 1,
+                data: admins
+            });
+        }catch(err){
+            console.log('获取所有管理员数据失败',err);
+            res.send({
+                status: 0,
+                type: 'ERROR_GET_ADMIN_LIST',
+                message: '获取所有管理员数据失败'
+            });
+        }
+    }
+
+    async getAdminCount(req,res,next){
+        try{
+            const count = await adminModel.count();
+            res.send({
+                status: 1,
+                count
+            });
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'ERROR_GET_ADMIN_COUNT',
+                message: '获取管理员数量失败'
+            });
+        }
+    }
 
     encryption(password){
         const newpassword = this.MD5(this.MD5(password).substr(2,7) + this.MD5(password));
