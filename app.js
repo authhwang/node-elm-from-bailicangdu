@@ -28,7 +28,7 @@ app.all(function(req,res,next){
 
 app.disable('x-powered-by');
 
-//app.use(Statistic.apiRecord);
+app.use(Statistic.apiRecord);
 app.use(cookieParser());
 app.use(express.static(__dirname + '/public'));
 app.use(session({
