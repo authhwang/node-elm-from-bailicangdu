@@ -184,6 +184,21 @@ class Order extends BaseComponent {
         }
     }
 
+    async getOrdersCount(req,res,next){
+        try{
+            const count = await orderModel.count();
+            res.send({
+                status: 1,
+                count: count
+            });
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'ERROR_GET_ORDERS_COUNT',
+                message: '获取所有订单数量失败'
+            });
+        }
+    }
 }
 
 module.exports = new Order();

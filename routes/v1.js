@@ -24,6 +24,7 @@ router.get('/pois',searchHandler.search);
 router.get('/user',userHandler.getInfo);
 router.get('/cities',cityHandler.getCity);
 router.get('/cities/:id',cityHandler.getCityById);
+router.get('/user/count',userHandler.getUserCount);
 router.get('/carts/:cart_id/remarks',remarkHandler.getRemarks);
 router.get('/users/:user_id/addresses',addressHandler.getAddress);
 router.delete('/users/:user_id/addresses/:address_id',addressHandler.delAddress);

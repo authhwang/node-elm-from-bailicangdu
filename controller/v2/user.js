@@ -213,6 +213,22 @@ class User extends AddressComponent {
         
     }
 
+    async getUserCount(req,res,next){
+        try{
+            const count = await userInfoModel.count();
+            res.send({
+                status: 1,
+                count
+            });
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'ERROR_TO_GET_USER_COUNT',
+                message: '获取用户数量失败'
+            });
+        }
+    }
+
     encryption(password){
         const newpassword = this.MD5(this.MD5(password).substr(2,7) + this.MD5(password));
         return newpassword;
