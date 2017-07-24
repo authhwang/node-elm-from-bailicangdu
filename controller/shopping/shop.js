@@ -408,6 +408,7 @@ class Shop extends AddComponent {
         }
     }
     
+    //更新餐馆
     async updateshop(req,res,next){
         const form = new formidable.IncomingForm();
         form.parse(req,async(err,fields,files) =>{
@@ -463,6 +464,35 @@ class Shop extends AddComponent {
                 });
             }
         });
+    }
+
+    //删除餐馆
+    async deleteRestaurant(req,res,next){
+        const restaurant_id = req.params.restaurant_id;
+        if(!restaurant_id || !Number(restaurant_id)){
+            console.log('restaurant_id参数错误');
+            res.send({
+                status: 0,
+                type: 'ERROR_PARAMS',
+                message: 'restaurant_id参数错误'  
+            });
+            return;
+        }
+        
+        try{
+            await shopModel.remove({id: restaurant_id});
+            res.send({
+                status: 1,
+                success: '删除餐馆成功'
+            });
+        }catch(err){
+            console.log('删除餐馆失败',err);
+            res.send({
+                status: 0,
+                type: 'DELETE_RESTAURANT_FAILED',
+                message: '删除餐馆失败'
+            });
+        }
     }
 }
 
