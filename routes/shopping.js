@@ -11,6 +11,8 @@ router.post('/updateshop',shopHandler.updateshop);
 router.get('/v2/menu',foodHandler.getMenu);
 router.get('/v2/foods',foodHandler.getFoods);
 router.get('/restaurants',shopHandler.getRestaurants);
+router.get('/v2/foods/count',foodHandler.getFoodsCount);
+router.get('/v2/menu/:category_id',foodHandler.getMenuDetail);
 router.get('/restaurants/count',shopHandler.getShopCount);
 router.get('/restaurant/:restaurant_id',shopHandler.getRestaurantDatail);
 router.get('/getcategory/:restaurant_id',foodHandler.getCategory);

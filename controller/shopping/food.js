@@ -378,6 +378,52 @@ class Food extends BaseComponent {
         }
     }
 
+    //获取食品的数量
+    async getFoodsCount(req,res,next){
+        const restaurant_id = req.query.restaurant_id;
+        try{
+            let filter = {};
+            if(restaurant_id && Number(restaurant_id)){
+                filter = {restaurant_id};
+            } 
+            const count = await foodModel.find(filter).count();
+            res.send({
+                status: 1,
+                count
+            });
+        }catch(err){
+            console.log('获取食品数量失败',err);
+            res.send({
+                status: 0,
+                type: 'ERROR_TO_GET_COUNT',
+                message: '获取食品数量失败'
+            });
+        }
+    }
+
+    //获取食品种类详情
+    async getMenuDetail(req,res,next){
+        const category_id = req.params.category_id;
+        if(!category_id || !Number(category_id)){
+            console.log('获取Menu详情参数ID错误');
+            res.send({
+                status: 0,
+                type: 'ERROR_PARAMS',
+                message: 'Menu ID参数错误'
+            });
+            return;
+        }
+        try{
+            const menu = await menuModel.findOne({id: category_id},'-_id');
+            res.send(menu);
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'GET_DATA_ERROR',
+                message: '获取Menu详情失败'
+            });
+        }
+    }
 }
 
 module.exports = new Food();
