@@ -391,6 +391,7 @@ class Shop extends AddComponent {
 
     }
 
+    //获取商店数量
     async getShopCount(req,res,next){
         try{
             const count = await shopModel.count();
@@ -405,6 +406,63 @@ class Shop extends AddComponent {
                 message: '获取商店数量失败'
             });
         }
+    }
+    
+    async updateshop(req,res,next){
+        const form = new formidable.IncomingForm();
+        form.parse(req,async(err,fields,files) =>{
+            if(err){
+                console.log('获取商品信息form出错',err);
+                res.send({
+                    status: 0,
+                    type: 'ERROR_FORM',
+                    message: '表单信息错误'
+                });
+                return;
+            }
+            const {id, name, address, description = '', phone, image_path, category, latitude, longitude} = fields;
+            if(id == 1){
+                res.send({
+                    status: 0,
+                    message: '此店铺用于展示,请不要修改'
+                });
+                return;
+            }
+            try{
+                if(!name){
+                    throw new Error('餐馆名称错误');
+                }else if(!address){
+                    throw new Error('餐馆地址错误');
+                }else if(!phone){
+                    throw new Error('餐馆联系电话错误');
+                }else if(!category){
+                    throw new Error('餐馆分类错误');
+                }else if(!id || !Number(id)){
+                    throw new Error('餐馆ID错误');
+                }else if(!image_path){
+                    throw new Error('餐馆图片地址错误');
+                }
+                let newData;
+                if(latitude && longitude){
+                    newData = {name, address, description, phone, category, latitude, longitude, image_path};
+                }else {
+                    newData = {name, address, description, phone, category, image_path};
+                }
+
+                await shopModel.findOneAndUpdate({id},{$set: newData});
+                res.send({
+                    status: 1,
+                    success: '修改商铺信息成功'
+                });
+            }catch(err){
+                console.log(err.message);
+                res.send({
+                    status: 0,
+                    type: 'ERROR_UPDATE_RESTAURANT',
+                    message: '更新商铺信息失败'
+                });
+            }
+        });
     }
 }
 

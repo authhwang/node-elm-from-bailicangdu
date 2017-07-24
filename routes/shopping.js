@@ -5,8 +5,9 @@ const checkHandler = require('../middlewares/check.js');
 const foodHandler = require('../controller/shopping/food.js');
 
 router.post('/addshop',shopHandler.addShop);
-router.post('/addcategory',foodHandler.addCategory);
 router.post('/addfood',foodHandler.addFood);
+router.post('/addcategory',foodHandler.addCategory);
+router.post('/updateshop',shopHandler.updateshop);
 router.get('/v2/menu',foodHandler.getMenu);
 router.get('/restaurants',shopHandler.getRestaurants);
 router.get('/restaurants/count',shopHandler.getShopCount);
