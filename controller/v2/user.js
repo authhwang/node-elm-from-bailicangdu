@@ -244,6 +244,64 @@ class User extends AddressComponent {
         }
     }
 
+    async getUserCity(req,res,next){
+        const cityArr = ['北京','上海','深圳','杭州','广州'];
+        const filterArr = [];
+        cityArr.forEach(item=>{
+            filterArr.push(userInfoModel.find({city: item}).count());
+        })
+        filterArr.push(userInfoModel.$where('!"北京上海深圳杭州广州".includes(this.city)').count());
+        Promise.all(filterArr).then(result =>{
+            res.send({
+                status: 1,
+                user_city: {
+                    beijing: result[0],
+                    shanghai: result[1],
+                    shenzhen: result[2],
+                    hangzhou: result[3],
+                    guangzhou: result[4],
+                    qita: result[5]
+                }
+            })
+        }).catch(err=>{
+            console.log('获取用户分布城市数据失败',err);
+            res.send({
+                status: 0,
+                type: 'ERROR_GET_USER_CITY',
+                message: '获取用户分步城市失败'
+            });
+        });
+    }
+
+    async updateAvatar(req,res,next){
+        const sid = req.session.user_id;
+        const pid = req.params.user_id;
+        const user_id = sid || pid;
+        if(!user_id || !Number(user_id)){
+            console.log('更新头像,user_id错误',user_id);
+            res.send({
+                status: 0,
+                type: 'ERROR_USER_ID',
+                message: 'user_id参数错误'
+            });
+            return;
+        }
+        try{
+            const image_path = await this.qiniu(req);
+            await userInfoModel.findOneAndUpdate({user_id},{$set: {avatar: image_path}});
+            res.send({
+                status: 1,
+                image_path
+            });
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'ERROR_UPLOAD_IMG',
+                message: '上传图片失败'
+            });
+        }
+    }
+
     encryption(password){
         const newpassword = this.MD5(this.MD5(password).substr(2,7) + this.MD5(password));
         return newpassword;

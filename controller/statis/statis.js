@@ -1,6 +1,7 @@
 const statisModel = require('../../models/statis/statis.js');
 const userInfoModel = require('../../models/v2/userinfo.js');
 const orderModel = require('../../models/bos/order.js');
+const adminModel = require('../../models/admin/admin.js');
 
 class Statis {
     constructor(){
@@ -106,6 +107,32 @@ class Statis {
             });
         }
     }
+
+    async adminCount(req,res,next){
+        const date = req.params.date;
+        if(!date){
+            res.send({
+                status: 0,
+                type: 'ERROR_PARAMS',
+                message: '参数错误'
+            });
+            return;
+        }
+        try{
+            const count = await adminModel.find({create_time: eval('/^' + date + '/gi')}).count();
+            res.send({
+                status: 1,
+                count
+            });
+        }catch(err){
+            res.send({
+                status: 0,
+                type: 'ERROR_GET_ADMIN_REGISTER_COUNT',
+                message: '获取当天注册管理员人数失败'
+            });
+        }
+    }
+
 }
 
 module.exports = new Statis();
