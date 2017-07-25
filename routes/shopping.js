@@ -20,6 +20,7 @@ router.get('/getcategory/:restaurant_id',foodHandler.getCategory);
 router.get('/v2/restaurants/category',categoryHandler.getCategories);
 router.get('/v1/restaurants/delivery_modes',categoryHandler.getDelivery);
 router.get('/v1/restaurants/activity_attributes',categoryHandler.getActivity);
+router.delete('/v2/food/:food_id',foodHandler.deleteFood);
 router.delete('/restaurant/:restaurant_id',shopHandler.deleteRestaurant);
 
 module.exports = router;

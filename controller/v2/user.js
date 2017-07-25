@@ -229,6 +229,21 @@ class User extends AddressComponent {
         }
     }
 
+    async getUserList(req,res,next){
+        const {limit = 20, offset = 0} = req.query;
+        try{
+            const users = await userInfoModel.find({},'-_id').sort({user_id: -1}).limit(Number(limit)).skip(Number(offset));
+            res.send(users);
+        }catch(err){
+            console.log(err);
+            res.send({
+                status: 0,
+                type: 'ERROR_TO_GET_USERS_LIST',
+                message: '获取用户列表失败'
+            });
+        }
+    }
+
     encryption(password){
         const newpassword = this.MD5(this.MD5(password).substr(2,7) + this.MD5(password));
         return newpassword;
