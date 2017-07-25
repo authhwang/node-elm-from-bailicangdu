@@ -19,14 +19,13 @@ router.post('/carts/checkout',cartsHanlder.checkout);
 router.post('/users/:user_id/addresses',addressHandler.addAddress);
 router.post('/users/:user_id/carts/:cart_id/orders',ordersHandler.postOrder);
 router.post('/users/:user_id/hongbao/exchange',hongbaoHander.exchange);
-router.get('/users/:user_id/hongbao/exchange',)
 router.get('/pois',searchHandler.search);
 router.get('/user',userHandler.getInfo);
 router.get('/cities',cityHandler.getCity);
 router.get('/cities/:id',cityHandler.getCityById);
 router.get('/user/count',userHandler.getUserCount);
 router.get('/users/list',userHandler.getUserList);
-router.get('/user/city/count',userHandler.getUserCity);
+router.get('/user/city/count',userHandler.getUserCity)
 router.get('/address/:address_id',addressHandler.getAddressById);
 router.get('/carts/:cart_id/remarks',remarkHandler.getRemarks);
 router.get('/users/:user_id/addresses',addressHandler.getAddress);

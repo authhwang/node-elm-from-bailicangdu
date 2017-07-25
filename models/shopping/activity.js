@@ -10,10 +10,12 @@ const activitySchema = mongoose.Schema({
     ranking_weight: Number
 });
 
+activitySchema.index({id: -1});
+
 const activity = mongoose.model('Activity',activitySchema);
 activity.findOne(function(err,data){
     if(!data){
-        activityData.forEach(function(item,index){
+        activityData.forEach(function(item){
             activity.create(item);
         });
     }

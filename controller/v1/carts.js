@@ -79,7 +79,7 @@ class Carts extends AddressComponent {
                     if(item.packing_fee){
                         this.extra[0].price  += item.packing_fee * item.quantity;
                         if(item.specs[0]){
-                            return itam.name = item.name + '-' + item.specs[0];
+                            return item.name = item.name + '-' + item.specs[0];
                         }
                     }
                 });

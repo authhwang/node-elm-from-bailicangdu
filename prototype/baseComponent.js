@@ -148,7 +148,6 @@ module.exports = class BaseComponent {
     uploadFile(uptoken,key,localFile){
         return new Promise((resolve,reject) =>{
             var extra = new qiniu.io.PutExtra();
-            console.log('2312312321');
             qiniu.io.putFile(uptoken,key,localFile,extra,function(err,ret){
                 if(!err){
                     resolve(ret.key);

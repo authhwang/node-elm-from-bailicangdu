@@ -130,7 +130,7 @@ class Shop extends AddComponent {
                         break;
                     case '领':
                         item.icon_color = 'e3ee0d';
-                        item_id = index + 1;
+                        item.id = index + 1;
                         break;      
                 }
 
@@ -264,7 +264,7 @@ class Shop extends AddComponent {
         if(delivery_mode.length){
             delivery_mode.forEach(item =>{
                 if(Number(item)){
-                    Object.assign(fileter,{'delivery_mode_id' : Number(item)});
+                    Object.assign(filter,{'delivery_mode_id' : Number(item)});
                 }
             });
         }
@@ -276,16 +276,16 @@ class Shop extends AddComponent {
                 if(Number(item) && (Number(item) !== 8)){
                     filterArr.push(Number(item));
                 }else if(Number(item) == 8){
-                    Object.assign(fileter,{is_premium : true});
+                    Object.assign(filter,{is_premium : true});
                 }
             })
 
             if(filterArr.length){
                 //匹配同时拥有多种活动的数据
-                Object.assign(fileter,{'support_id' : {$all : filterArr}});
+                Object.assign(filter,{'support_id' : {$all : filterArr}});
             }
         }
-        console.log(filter);
+
         const restaurants = await shopModel.find(filter,'-_id').sort(sortBy).limit(Number(limit)).skip(Number(offset));
         const from = latitude + ',' + longitude;
         let to = '';
@@ -302,7 +302,7 @@ class Shop extends AddComponent {
             }
         }catch(err){
             console.log('从addressComponent获取测距数据失败',err);
-            restaurants.map((item,index) => {
+            restaurants.map((item) => {
                 return Object.assign(item,{distance: '10公里', order_lead_time: '40分钟'});
             });
         }

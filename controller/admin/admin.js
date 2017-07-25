@@ -9,7 +9,7 @@ class Admin extends AddressComponent {
         super();
         this.login = this.login.bind(this);
     }
-    async login(req,res,next){
+    async login(req,res){
         const form = new formidable.IncomingForm();
         form.parse(req,async(err,fields,files) =>{
             if(err){
@@ -84,7 +84,7 @@ class Admin extends AddressComponent {
         });
     }
 
-    async signout(req,res,next){
+    async signout(req,res){
         try{
             delete req.session.admin_id;
             res.send({
@@ -100,7 +100,7 @@ class Admin extends AddressComponent {
         }
     }  
 
-    async getAdminInfo(req,res,next){
+    async getAdminInfo(req,res){
         const admin_id = req.session.admin_id;
         if(!admin_id){
             console.log('获取管理员的session数据失败');
@@ -131,7 +131,7 @@ class Admin extends AddressComponent {
         }
     }
 
-    async getAllAdmin(req,res,next){
+    async getAllAdmin(req,res){
         const {limit = 20,offset = 0} = req.query;
         try{
             const admins = await adminModel.find({},'-_id -password').sort({id: -1}).limit(Number(limit)).skip(Number(offset));
@@ -149,7 +149,7 @@ class Admin extends AddressComponent {
         }
     }
 
-    async getAdminCount(req,res,next){
+    async getAdminCount(req,res){
         try{
             const count = await adminModel.count();
             res.send({

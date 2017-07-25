@@ -13,10 +13,11 @@ class CityHandle extends addressComponent {
     async getCity(req,res,next){
         let cityInfo;
         const type = req.query.type;
+        let city;
         try{
             switch(type){
                 case 'guess':
-                    const city = await this.getCityname(req,res);
+                    city = await this.getCityname(req,res);
                     cityInfo = await Cities.cityGuess(city);
                     break;
                 case 'hot':

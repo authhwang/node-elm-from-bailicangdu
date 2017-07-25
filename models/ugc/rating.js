@@ -63,7 +63,7 @@ rateSchema.statics.initData = async function(restaurant_id){
     }
 }
 
-rateSchema.statics.getData = async function(restaurant_id,type,offset,limit){
+rateSchema.statics.getData = async function(restaurant_id,type){
         try{
             let data;
             data = await this.findOne({restaurant_id},'-_id');

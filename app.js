@@ -28,9 +28,9 @@ app.all(function(req,res,next){
 
 app.disable('x-powered-by');
 
+app.use(express.static('./public'));
 app.use(Statistic.apiRecord);
 app.use(cookieParser());
-app.use(express.static(__dirname + '/public'));
 app.use(session({
     name: config.session.name,
     secret : config.session.secret,
@@ -52,13 +52,6 @@ app.use(expressWinston.logger({
         })
     ]
 }))
-
-app.get('/',function(req,res){
-    res.json({
-        status : 1,
-        message : '第一次成功'
-    });
-});
 
 routes(app);
 

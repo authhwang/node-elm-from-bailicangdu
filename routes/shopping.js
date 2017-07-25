@@ -4,11 +4,11 @@ const categoryHandler = require('../controller/shopping/category.js');
 const checkHandler = require('../middlewares/check.js');
 const foodHandler = require('../controller/shopping/food.js');
 
-router.post('/addshop',shopHandler.addShop);
-router.post('/addfood',foodHandler.addFood);
-router.post('/updateshop',shopHandler.updateshop);
-router.post('/addcategory',foodHandler.addCategory);
-router.post('/v2/updatefood',foodHandler.updateFood);
+router.post('/addshop',checkHandler.checkAdmin,shopHandler.addShop);
+router.post('/addfood',checkHandler.checkAdmin,foodHandler.addFood);
+router.post('/updateshop',checkHandler.checkAdmin,shopHandler.updateshop);
+router.post('/addcategory',checkHandler.checkAdmin,foodHandler.addCategory);
+router.post('/v2/updatefood',checkHandler.checkAdmin,foodHandler.updateFood);
 router.get('/v2/menu',foodHandler.getMenu);
 router.get('/v2/foods',foodHandler.getFoods);
 router.get('/restaurants',shopHandler.getRestaurants);
@@ -20,7 +20,7 @@ router.get('/getcategory/:restaurant_id',foodHandler.getCategory);
 router.get('/v2/restaurants/category',categoryHandler.getCategories);
 router.get('/v1/restaurants/delivery_modes',categoryHandler.getDelivery);
 router.get('/v1/restaurants/activity_attributes',categoryHandler.getActivity);
-router.delete('/v2/food/:food_id',foodHandler.deleteFood);
-router.delete('/restaurant/:restaurant_id',shopHandler.deleteRestaurant);
+router.delete('/v2/food/:food_id',checkHandler.checkSuperAdmin,foodHandler.deleteFood);
+router.delete('/restaurant/:restaurant_id',checkHandler.checkSuperAdmin,shopHandler.deleteRestaurant);
 
 module.exports = router;

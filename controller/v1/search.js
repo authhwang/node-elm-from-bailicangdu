@@ -28,7 +28,7 @@ class SearchPlace extends addressComponent {
                     console.log('搜索地址时,获取定位域失败');
                     res.send({
                         name: 'ERROR_GET_POSITION',
-					    message: '获取数据失败',
+                        message: '获取数据失败',
                     });
                 }
             }
@@ -50,9 +50,9 @@ class SearchPlace extends addressComponent {
             }catch(err){
                 console.error(err);
                 res.send({
-				    name: 'GET_ADDRESS_ERROR',
-				    message: '获取地址信息失败',
-			    });
+                    name: 'GET_ADDRESS_ERROR',
+                    message: '获取地址信息失败',
+                });
             }
         }
 }

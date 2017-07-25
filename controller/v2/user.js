@@ -185,7 +185,6 @@ class User extends AddressComponent {
                         type: 'USER_NOT_FOUND',
                         message: '未找到当前用户'
                     });
-                    ;
                 }else if(user.password.toString() !== md5password.toString()){
                     res.send({
                         status: 0,

@@ -10,7 +10,7 @@ class Category extends BaseComponent {
     async findById(id){
         try{
             const cateEntity = await categoryModel.findOne({'sub_categories.id' : id});
-            let categoryName = CateEntity.name;
+            let categoryName = cateEntity.name;
             cateEntity.sub_categories.forEach(item => {
                 if(item.id == id){
                     categoryName += '/' + item.name;
