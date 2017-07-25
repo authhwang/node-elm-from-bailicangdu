@@ -13,14 +13,12 @@ class AddressComponent extends baseComponent {
         //req.connection.remoteAddress connection 其实是一个socket对象 假如不是代理就用这个
         return new Promise(async (resolve,reject) => {
             let ip = req.connection.remoteAddress || req.headers['x-forwardded-for'];
-            //127.0.0.1:80
             const ipArr = ip.split(':');
             ip = ipArr[ipArr.length - 1];
-            //上线的代理服务器估计是
-            // if(process.env.NODE_ENV == 'development') {
-            //     ip = '116.226.184.83'
-            // }
-            ip = '113.103.23.60';
+            
+            if(process.env.NODE_EVV == 'development'){
+                ip = '113.103.23.60';
+            }
             try{
                 let result;
                 //通过ip定位地址
