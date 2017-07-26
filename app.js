@@ -53,6 +53,10 @@ app.use(expressWinston.logger({
     ]
 }))
 
+app.get('/',function(req,res){
+    res.send('123');
+})
+
 routes(app);
 
 app.use(expressWinston.errorLogger({
