@@ -9,14 +9,14 @@ const winston = require('winston');
 const expressWinston = require('express-winston');
 const Statistic = require('./middlewares/statistic.js');
 const routes = require('./routes/index.js');
-
+const history = require('connect-history-api-fallback');
 
 const app = express();
 
 //跨域请求的设置
-app.all(function(req,res,next){
-    res.header('Access-Control-Allow-Origin',req.header.origin || '*');//跨域的源
-    res.header('Access-Control-Allow-Headers','Content-Type','Authorization','X-Requested-With');//允许请求中携带的字段
+app.all('*', function(req,res,next){
+    res.header('Access-Control-Allow-Origin',req.headers.origin || '*');//跨域的源
+    res.header('Access-Control-Allow-Headers','Content-Type Authorization X-Requested-With');//允许请求中携带的字段
     res.header('Access-control-Allow-Methods','PUT,POST,GET,DELETE,OPTIONS');//允许客户端使用的方法请求
     res.header('Access-Control-Allow-Credentials',true);//发送cookie 可是要客户端与服务端都要允许
     if(req.method == 'OPTIONS'){
@@ -71,5 +71,5 @@ app.use(expressWinston.errorLogger({
     ]
 }));
 
-
+app.use(history());
 app.listen(config.port);
