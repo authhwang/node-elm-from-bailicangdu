@@ -39,7 +39,7 @@ class SearchPlace extends addressComponent {
                 const cityList = [];
                 resultObj.data.forEach((item,index) =>{
                     cityList.push({
-                        name : item.title,
+                        value : item.title,
                         address : item.address,
                         latitude : item.location.lat,
                         longitude : item.location.lng,
